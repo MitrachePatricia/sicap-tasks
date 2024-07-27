@@ -36,11 +36,11 @@ def most_used_cpv_codes(file):
 
     # adaugare coloana cu valoarea totala a contractelor pentru fiecare cod cpv
     cpv_total_value = df.groupby('publicDirectAcquisition.cpvCode.localeKey')['item.estimatedValueRon'].sum().reset_index()
-    cpv_total_value = cpv_total_value.rename(columns={'publicDirectAcquisition.cpvCode.localeKey': 'CPV Code', 'item.estimatedValueRon': 'Total Value'})
+    cpv_total_value = cpv_total_value.rename(columns={'publicDirectAcquisition.cpvCode.localeKey': 'CPV Code', 'item.estimatedValueRon': 'Total Value (in Ron)'})
    
     # formatarea coloanei de total value ca sa fie mai usor de citit (?)
-    # cpv_total_value['Total Value'] = cpv_total_value['Total Value'].str.replace(',', '').astype('float128')
-    # cpv_total_value['Total Value'] = cpv_total_value['Total Value'].apply(lambda x: '{:,.2f}'.format(x))
+    # cpv_total_value['Total Value (in Ron)'] = cpv_total_value['Total Value (in Ron)'].str.replace(',', '').astype('float64')
+    # cpv_total_value['Total Value (in Ron)'] = cpv_total_value['Total Value (in Ron)'].apply(lambda x: '{:,.2f}'.format(x))
 
     # combinare numarul de aparitii cu valoarea totala a contractelor
     cpv_count = cpv_count.merge(cpv_total_value)
