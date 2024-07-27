@@ -16,4 +16,4 @@ Programul analizeaza, la momentul de față, urmatoarele fișiere:
 
 Scriptul Task1.py conține 2 subprograme: 
 - `firme_unice` - returnează numărul de firme unice care au fost înregistrate pe e-licitatie.ro
-- `most_used_cpv_codes` - returneaza primele 20 cele mai folosite coduri CPV 
+- `most_used_cpv_codes` - returneaza primele 20 cele mai folosite coduri CPV, numarul de aparitii, descrierea si valoarea totala contractata pentru fiecare
