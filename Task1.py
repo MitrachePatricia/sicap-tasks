@@ -23,7 +23,7 @@ def most_used_cpv_codes(file):
     df = pd.read_csv(file_path, header=0)
     year = slice(-8, -4)
     cpv_count = df['publicDirectAcquisition.cpvCode.localeKey'].value_counts().head(20)
-    cpv_count = cpv_count.rename_axis("CPV Code").reset_index(name="De cate ori a aparut")
+    cpv_count = cpv_count.rename_axis("CPV Code").reset_index(name="Count")
     cpv_count.index = cpv_count.index + 1
     print("\nCele mai folosite coduri CPV in " + file[year] + " sunt: \n")
     print(cpv_count)
