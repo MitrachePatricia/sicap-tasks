@@ -23,6 +23,10 @@ def most_used_cpv_codes(file):
     df = pd.read_csv(file_path, header=0)
     year = slice(-8, -4)
 
+
+    # reformatarea coloanei 'item.closingValue' pentru a putea fi convertita in float
+    df['item.closingValue'] = df['item.closingValue'].str.replace(',', '').astype(float)
+
     # extragere top 20 coduri CPV
     cpv_count = df['publicDirectAcquisition.cpvCode.localeKey'].value_counts().head(20)
     cpv_count = cpv_count.rename_axis("CPV Code").reset_index(name="Count")
@@ -35,12 +39,11 @@ def most_used_cpv_codes(file):
     cpv_count = cpv_count.merge(cpv_descriptions)
 
     # adaugare coloana cu valoarea totala a contractelor pentru fiecare cod cpv
-    cpv_total_value = df.groupby('publicDirectAcquisition.cpvCode.localeKey')['item.estimatedValueRon'].sum().reset_index()
-    cpv_total_value = cpv_total_value.rename(columns={'publicDirectAcquisition.cpvCode.localeKey': 'CPV Code', 'item.estimatedValueRon': 'Total Value (in Ron)'})
+    cpv_total_value = df.groupby('publicDirectAcquisition.cpvCode.localeKey')['item.closingValue'].sum().reset_index()
+    cpv_total_value = cpv_total_value.rename(columns={'publicDirectAcquisition.cpvCode.localeKey': 'CPV Code', 'item.closingValue': 'Total Value (in Ron)'})
    
-    # formatarea coloanei de total value ca sa fie mai usor de citit (?)
-    # cpv_total_value['Total Value (in Ron)'] = cpv_total_value['Total Value (in Ron)'].str.replace(',', '').astype('float64')
-    # cpv_total_value['Total Value (in Ron)'] = cpv_total_value['Total Value (in Ron)'].apply(lambda x: '{:,.2f}'.format(x))
+    # formatarea coloanei de total value ca sa fie mai usor de citit 
+    cpv_total_value['Total Value (in Ron)'] = cpv_total_value['Total Value (in Ron)'].apply(lambda x: '{:,.0f}'.format(x) if x.is_integer() else '{:,.2f}'.format(x))   
 
     # combinare numarul de aparitii cu valoarea totala a contractelor
     cpv_count = cpv_count.merge(cpv_total_value)
