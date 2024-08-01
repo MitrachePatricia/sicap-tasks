@@ -23,7 +23,6 @@ def most_used_cpv_codes(file):
     df = pd.read_csv(file_path, header=0)
     year = slice(-8, -4)
 
-
     # reformatarea coloanei 'item.closingValue' pentru a putea fi convertita in float
     df['item.closingValue'] = df['item.closingValue'].str.replace(',', '').astype(float)
 
